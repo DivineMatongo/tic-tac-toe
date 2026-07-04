@@ -26,7 +26,6 @@ function GameBoard() {
             throw new Error("ClickError");
         }
         board[row][col] = symbol;
-        console.log(board);
     }
 
     return {
@@ -39,19 +38,35 @@ function GameBoard() {
 function TicTacToe() {
     let currentPlayer = X_MARK;
     let turnsPlayed = 0;
+    let gameOver = false;
+    let winner = "";
+    let winningLine = [];
     const board = GameBoard();
 
     function getCurrentPlayer() {
         return currentPlayer;
     }
 
+    function isGameOver() {
+        return gameOver;
+    }
+
+    function getWinner() {
+        return winner;
+    }
+
+    function getWinningLine() {
+        return winningLine.slice();
+    }
+
     function play(row, col) {
-        if (turnsPlayed >= 9) {
+        if (gameOver) {
             throw new Error("GameOver");
         }
         board.writeToSquare(row, col, currentPlayer);
         currentPlayer = (currentPlayer === X_MARK) ? O_MARK : X_MARK;
         turnsPlayed++;
+        checkGameOver();
     }
    
     function checkLine(line) {
@@ -67,7 +82,7 @@ function TicTacToe() {
         }
     }
 
-    function gameOver() {
+    function checkGameOver() {
         const straightLines = [
             [[0, 0], [0, 1], [0, 2]],
             [[0, 0], [1, 0], [2, 0]],
@@ -80,22 +95,27 @@ function TicTacToe() {
         ];
 
         for (let line of straightLines) {
-            const winner = checkLine(line);
-            if (winner) {
-                return {winner, line};
+            const hasWinner = checkLine(line);
+            if (hasWinner) {
+                gameOver = true;
+                winner = hasWinner;
+                winningLine = line;
             }
         }
 
         if (turnsPlayed >= 9) {
-            return {winner: null};
+            gameOver = true;
+            winner = "";
         }
     }
     
     return {
         getCurrentPlayer,
-        play,
-        gameOver,
+        getWinner,
+        getWinningLine,
+        isGameOver,
         getSquare: board.readSquare, 
+        play,
     }
 }
 
@@ -115,8 +135,8 @@ function refresh() {
         square.textContent = game.getSquare(row, col);
     });
     playerHeading.textContent =
-        (game.getCurrentPlayer === X_MARK) ?
-        `Player 2: ${O_MARK}` : `Player 1: ${X_MARK}` ;
+        (game.getCurrentPlayer() === X_MARK) ?
+        `Player 1: ${X_MARK}` : `Player 2: ${O_MARK}` ;
 }
 
 function applyClickHandlers() {
@@ -137,6 +157,8 @@ function squareClicked(id) {
     } catch (e) {
         if (e.message === "ClickError") {
             console.log("Square already played");
+        } else if (e.message === "GameOver") {
+            console.log("Game Over");
         }
     }
 }
