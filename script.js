@@ -163,8 +163,4 @@ function squareClicked(id) {
     }
 }
 
-function main() {
-    applyClickHandlers();
-}
-
-main();
+applyClickHandlers();
