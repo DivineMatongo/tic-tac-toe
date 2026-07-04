@@ -1,3 +1,8 @@
+
+/* --------------------- */
+/* Underlying game logic */
+/* --------------------- */
+
 function GameBoard() {
     const board = [
         ["", "", ""],
@@ -25,16 +30,20 @@ function GameBoard() {
 
 
 function TicTacToe() {
-    let toPlay = "X";
+    let currentPlayer = "𐄂";
     let turnsPlayed = 0;
     const board = GameBoard();
+
+    function getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     function play(row, col) {
         if (turnsPlayed >= 9) {
             throw new Error("Too many rounds for a TicTacToe game");
         }
-        board.writeToSquare(row, col, toPlay);
-        toPlay = (toPlay === "X") ? "O" : "X";
+        board.writeToSquare(row, col, currentPlayer);
+        currentPlayer = (currentPlayer === "𐄂") ? "○" : "𐄂";
         turnsPlayed++;
     }
    
@@ -76,7 +85,15 @@ function TicTacToe() {
     }
     
     return {
+        getCurrentPlayer,
         play,
         gameOver
     }
 }
+
+
+/* ------------------------ */
+/* GUI and DOM manipulation */
+/* ------------------------ */
+
+
