@@ -1,3 +1,10 @@
+/* ------- */
+/* CONSTANTS */
+/* ------- */
+
+const X_MARK = "𐄂";
+const O_MARK = "○";
+
 
 /* --------------------- */
 /* Underlying game logic */
@@ -16,7 +23,7 @@ function GameBoard() {
 
     function writeToSquare(row, col, symbol) {
         if (readSquare(row, col) != "") {
-            throw new Error("Attempt to write to a non-empty square");
+            throw new Error("ClickError");
         }
         board[row][col] = symbol;
         console.log(board);
@@ -30,7 +37,7 @@ function GameBoard() {
 
 
 function TicTacToe() {
-    let currentPlayer = "𐄂";
+    let currentPlayer = X_MARK;
     let turnsPlayed = 0;
     const board = GameBoard();
 
@@ -40,10 +47,10 @@ function TicTacToe() {
 
     function play(row, col) {
         if (turnsPlayed >= 9) {
-            throw new Error("Too many rounds for a TicTacToe game");
+            throw new Error("GameOver");
         }
         board.writeToSquare(row, col, currentPlayer);
-        currentPlayer = (currentPlayer === "𐄂") ? "○" : "𐄂";
+        currentPlayer = (currentPlayer === X_MARK) ? O_MARK : X_MARK;
         turnsPlayed++;
     }
    
@@ -87,7 +94,8 @@ function TicTacToe() {
     return {
         getCurrentPlayer,
         play,
-        gameOver
+        gameOver,
+        getSquare: board.readSquare, 
     }
 }
 
@@ -96,4 +104,45 @@ function TicTacToe() {
 /* GUI and DOM manipulation */
 /* ------------------------ */
 
+let game = TicTacToe();
+const squaresArray = Array.from(document.querySelectorAll(".game-square"));
+const playerHeading = document.querySelector(".header > h1");
 
+function refresh() {
+    squaresArray.forEach((square) => {
+        const row = Number(square.id.charAt(0));
+        const col = Number(square.id.charAt(1));
+        square.textContent = game.getSquare(row, col);
+    });
+    playerHeading.textContent =
+        (game.getCurrentPlayer === X_MARK) ?
+        `Player 2: ${O_MARK}` : `Player 1: ${X_MARK}` ;
+}
+
+function applyClickHandlers() {
+    document.querySelector(".game-area")
+        .addEventListener("click", (e) => {
+            if (e.target.classList.contains("game-square")) {
+                squareClicked(e.target.id);
+            }
+        })
+}
+
+function squareClicked(id) {
+    const row = Number(id.charAt(0));
+    const col = Number(id.charAt(1));
+    try {
+        game.play(row, col);
+        refresh();
+    } catch (e) {
+        if (e.message === "ClickError") {
+            console.log("Square already played");
+        }
+    }
+}
+
+function main() {
+    applyClickHandlers();
+}
+
+main();
