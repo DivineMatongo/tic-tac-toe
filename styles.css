@@ -1,0 +1,48 @@
+body {
+    margin: 0px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.game-area {
+    flex: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    justify-content: center;
+    align-content: center;
+    font-size: 80px;
+}
+
+.game-area > div {
+    display: grid;
+    place-content: center;
+    border: 4px solid grey;
+}
+
+.left {
+    border-left: 0px !important;
+}
+
+.top {
+    border-top: 0px !important;
+}
+
+.right {
+    border-right: 0px !important;
+}
+
+.bottom {
+    border-bottom: 0px !important;
+}
+
+.footer {
+    text-align: center;
+}
