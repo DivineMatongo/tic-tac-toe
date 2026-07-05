@@ -160,11 +160,19 @@ function paintWinningLine() {
 
 function applyClickHandlers() {
     document.querySelector(".game-area")
-        .addEventListener("click", (e) => {
-            if (e.target.classList.contains("game-square")) {
-                squareClicked(e.target.id);
-            }
-        })
+    .addEventListener("click", (e) => {
+        if (e.target.classList.contains("game-square")) {
+            squareClicked(e.target.id);
+        }
+    });
+    document.querySelector(".header > button")
+    .addEventListener("click", (e) => {
+        game = TicTacToe();
+        squaresArray.forEach((square) => {
+            square.classList.remove("winning-line", "draw")
+        });
+        refresh();
+    });
 }
 
 function squareClicked(id) {
