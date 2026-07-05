@@ -127,7 +127,7 @@ function TicTacToe() {
 
 let game = TicTacToe();
 const squaresArray = Array.from(document.querySelectorAll(".game-square"));
-const playerHeading = document.querySelector(".header > h1");
+const playerHeading = document.querySelector(".header > label");
 
 function refresh() {
     squaresArray.forEach((square) => {
@@ -137,7 +137,9 @@ function refresh() {
     });
     if (game.isGameOver()) {
         if (game.getWinner()) {
-            playerHeading.textContent = `${game.getWinner()} wins!`;
+            const winningPlayer = (game.getWinner() === X_MARK) ?
+                "Player 1" : "Player 2";
+            playerHeading.textContent = `🥳 ${winningPlayer} wins! 🥳`;
             paintWinningLine();
         } else {
             playerHeading.textContent = "It's a tie!"
@@ -165,7 +167,7 @@ function applyClickHandlers() {
             squareClicked(e.target.id);
         }
     });
-    document.querySelector(".header > button")
+    document.querySelector(".game-button")
     .addEventListener("click", (e) => {
         game = TicTacToe();
         squaresArray.forEach((square) => {

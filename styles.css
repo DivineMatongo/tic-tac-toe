@@ -3,12 +3,29 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    font-family: 'Roboto', system-ui;
 }
 
 .header {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    justify-content: space-between;
+    padding: 0px 100px;
+    box-shadow: 1px 1px 5px darkgrey;
+}
+
+h1 {
+    color: green;
+}
+
+label {
+    text-align: center;
+    font-size: x-large;
+    font-weight: 500;
+}
+
+.header > div {
+    text-align: end;
 }
 
 .game-area {
