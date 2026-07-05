@@ -2,7 +2,7 @@
 /* CONSTANTS */
 /* ------- */
 
-const X_MARK = "𐄂";
+const X_MARK = "×";
 const O_MARK = "○";
 
 
@@ -17,7 +17,7 @@ function GameBoard() {
         ["", "", ""]
     ]
     
-    function readSquare (row, col) {
+    function readSquare(row, col) {
         return board[row][col];
     }
 
@@ -134,9 +134,26 @@ function refresh() {
         const col = Number(square.id.charAt(1));
         square.textContent = game.getSquare(row, col);
     });
-    playerHeading.textContent =
-        (game.getCurrentPlayer() === X_MARK) ?
-        `Player 1: ${X_MARK}` : `Player 2: ${O_MARK}` ;
+    if (game.isGameOver()) {
+        if (game.getWinner()) {
+            playerHeading.textContent = `${game.getWinner()} wins!`;
+            paintWinningLine();
+        } else {
+            playerHeading.textContent = "It's a tie!"
+        }
+    } else {
+        playerHeading.textContent =
+            (game.getCurrentPlayer() === X_MARK) ?
+            `Player 1: ${X_MARK}` : `Player 2: ${O_MARK}` ;
+    }
+}
+
+function paintWinningLine() {
+    game.getWinningLine().forEach((winningSquare) => {
+        const [row, col] = winningSquare;
+        document.getElementById(`${row}${col}`)
+            .classList.add("winning-line");
+    });
 }
 
 function applyClickHandlers() {
