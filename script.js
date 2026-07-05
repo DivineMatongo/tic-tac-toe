@@ -100,6 +100,7 @@ function TicTacToe() {
                 gameOver = true;
                 winner = hasWinner;
                 winningLine = line;
+                return;
             }
         }
 
@@ -140,6 +141,7 @@ function refresh() {
             paintWinningLine();
         } else {
             playerHeading.textContent = "It's a tie!"
+            squaresArray.forEach((square) => square.classList.add("draw"));
         }
     } else {
         playerHeading.textContent =

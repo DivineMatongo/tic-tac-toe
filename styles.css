@@ -50,3 +50,7 @@ body {
 .winning-line {
     color: rgb(0 162 0);
 }
+
+.draw {
+    color: rgb(139 139 139);;
+}
