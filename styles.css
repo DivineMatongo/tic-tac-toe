@@ -94,6 +94,18 @@ button.game-button:active {
 
 .footer {
     text-align: center;
+    background-color: green;
+    color: white;
+    font-size: 12px;
+    padding: 10px 0px;
+}
+
+.footer > p {
+    line-height: 1.3lh;
+}
+
+a {
+    color: white;
 }
 
 .winning-line {
