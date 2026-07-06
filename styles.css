@@ -25,7 +25,38 @@ label {
 }
 
 .header > div {
-    text-align: end;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-container {
+    width: 60px;
+    text-align: center;
+}
+
+button.game-button {
+    border: solid 2px green;
+    border-radius: 15px;
+    background-color: white;
+    color: green;
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+}
+
+button.game-button:hover,
+button.game-button:active,
+button.game-button:focus-visible,
+button.game-button:focus {
+    background-color: green;
+    color: white;
+    outline: none;
+}
+
+button.game-button:active {
+    width: 50px;
+    height: 25px;
+    font-size: 11px;
 }
 
 .game-area {
